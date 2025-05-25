@@ -101,7 +101,7 @@
 
 //     // Set the Oracle address (only owner)
 //     function setOrocle(address newOrocle) external {
-        
+
 //         orocle = IOrocleAggregatorV2(newOrocle);
 //         emit SetOrocle(address(orocle), newOrocle);
 //     }

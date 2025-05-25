@@ -1,12 +1,9 @@
-
 // SPDX-License-Identifier: MIT
 // pragma solidity 0.8.11;
 pragma solidity ^0.8.13;
 
-
 // import "bsc-library/contracts/IBEP20.sol";
 // import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-
 
 interface IBEP20 {
     /**
@@ -82,11 +79,7 @@ interface IBEP20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -103,58 +96,52 @@ interface IBEP20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-
-
 pragma solidity ^0.8.13;
 
 import {TaccStaking, Ownable} from "./Staking.sol";
 
-contract Factory is Ownable  {
-
+contract Factory is Ownable {
     event NewStakeContract(address indexed stakeAddress);
-    error  CallertNotOwner();
 
-      address[] public deployedPools;
+    error CallertNotOwner();
 
-    constructor()  {  
-          
+    address[] public deployedPools;
 
-    }
+    constructor() {}
 
     function deployPool(
-         address _stakedToken,
+        address _stakedToken,
         address _rewardToken,
         address _feeCollector,
         uint256 _lockDuration,
         uint256 _apy,
         uint256 _exitPenaltyPerc
-
-    ) external onlyOwner  {
+    ) external onlyOwner {
         require(IBEP20(_stakedToken).totalSupply() >= 0);
         require(IBEP20(_rewardToken).totalSupply() >= 0);
         // bytes memory bytecode = type(TaccStaking).creationCode;
-         bytes memory bytecode = abi.encodePacked(
+        bytes memory bytecode = abi.encodePacked(
             type(TaccStaking).creationCode,
-            abi.encode(_stakedToken, _rewardToken, _feeCollector,_lockDuration, _apy, _exitPenaltyPerc)
+            abi.encode(_stakedToken, _rewardToken, _feeCollector, _lockDuration, _apy, _exitPenaltyPerc)
         );
-        bytes32 salt = keccak256(abi.encodePacked(_stakedToken, _rewardToken, _feeCollector, _lockDuration, _apy,
-        _exitPenaltyPerc ));
+        bytes32 salt = keccak256(
+            abi.encodePacked(_stakedToken, _rewardToken, _feeCollector, _lockDuration, _apy, _exitPenaltyPerc)
+        );
 
-         address payable stakeAddress;
-   
+        address payable stakeAddress;
+
         assembly {
             stakeAddress := create2(0, add(bytecode, 32), mload(bytecode), salt)
         }
-          
-          TaccStaking(stakeAddress).transferOwnership(owner());
+
+        TaccStaking(stakeAddress).transferOwnership(owner());
         //   TaccStaking(stakeAddress).startReward();
-          deployedPools.push(stakeAddress);
+        deployedPools.push(stakeAddress);
 
-
-         emit  NewStakeContract(stakeAddress);
+        emit NewStakeContract(stakeAddress);
     }
-   
-        function getAllDeployedPools() external view returns (address[] memory) {
+
+    function getAllDeployedPools() external view returns (address[] memory) {
         return deployedPools;
     }
 
@@ -166,10 +153,10 @@ contract Factory is Ownable  {
     // Deployed Stake Contract: 0xD2f8c01aAe9d1bF355619A35AAc8b9492482D83D
     //1st USer Current Balance: 57,185.47646 DCC  after withdraw= 58,185.53811 DCC
     //2nd User Current Balance: 178,862.3642 DCC after withdraw = 179,362.39432 DCC
-    // 2nd User Current Balance: 
-     // 1st User Deposited 1000 DCC
-     // 2nd User Deposit 500DCC
+    // 2nd User Current Balance:
+    // 1st User Deposited 1000 DCC
+    // 2nd User Deposit 500DCC
 
-     //unlockTime = 1,747,233,000
-     //current time = 1,747,233,328
+    //unlockTime = 1,747,233,000
+    //current time = 1,747,233,328
 }

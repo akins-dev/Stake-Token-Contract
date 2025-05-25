@@ -1,6 +1,3 @@
-
-
-
 //SPDX-License-Identifier:MIT
 pragma solidity ^0.8.13;
 
@@ -68,7 +65,7 @@ contract Ownable is Context {
      * @dev Throws if called by any account other than the owner.
      */
     modifier onlyOwner() {
-        require(_owner == _msgSender(), 'Ownable: caller is not the owner');
+        require(_owner == _msgSender(), "Ownable: caller is not the owner");
         _;
     }
 
@@ -96,7 +93,7 @@ contract Ownable is Context {
      * @dev Transfers ownership of the contract to a new account (`newOwner`).
      */
     function _transferOwnership(address newOwner) internal {
-        require(newOwner != address(0), 'Ownable: new owner is the zero address');
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
         emit OwnershipTransferred(_owner, newOwner);
         _owner = newOwner;
     }
@@ -128,7 +125,7 @@ library SafeMath {
      */
     function add(uint256 a, uint256 b) internal pure returns (uint256) {
         uint256 c = a + b;
-        require(c >= a, 'SafeMath: addition overflow');
+        require(c >= a, "SafeMath: addition overflow");
 
         return c;
     }
@@ -144,7 +141,7 @@ library SafeMath {
      * - Subtraction cannot overflow.
      */
     function sub(uint256 a, uint256 b) internal pure returns (uint256) {
-        return sub(a, b, 'SafeMath: subtraction overflow');
+        return sub(a, b, "SafeMath: subtraction overflow");
     }
 
     /**
@@ -157,11 +154,7 @@ library SafeMath {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         uint256 c = a - b;
 
@@ -187,7 +180,7 @@ library SafeMath {
         }
 
         uint256 c = a * b;
-        require(c / a == b, 'SafeMath: multiplication overflow');
+        require(c / a == b, "SafeMath: multiplication overflow");
 
         return c;
     }
@@ -205,7 +198,7 @@ library SafeMath {
      * - The divisor cannot be zero.
      */
     function div(uint256 a, uint256 b) internal pure returns (uint256) {
-        return div(a, b, 'SafeMath: division by zero');
+        return div(a, b, "SafeMath: division by zero");
     }
 
     /**
@@ -220,11 +213,7 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function div(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         uint256 c = a / b;
         // assert(a == b * c + a % b); // There is no case in which this doesn't hold
@@ -245,7 +234,7 @@ library SafeMath {
      * - The divisor cannot be zero.
      */
     function mod(uint256 a, uint256 b) internal pure returns (uint256) {
-        return mod(a, b, 'SafeMath: modulo by zero');
+        return mod(a, b, "SafeMath: modulo by zero");
     }
 
     /**
@@ -260,11 +249,7 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function mod(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         require(b != 0, errorMessage);
         return a % b;
     }
@@ -362,11 +347,7 @@ interface IBEP20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -396,20 +377,11 @@ library SafeBEP20 {
     using SafeMath for uint256;
     using Address for address;
 
-    function safeTransfer(
-        IBEP20 token,
-        address to,
-        uint256 value
-    ) internal {
+    function safeTransfer(IBEP20 token, address to, uint256 value) internal {
         _callOptionalReturn(token, abi.encodeWithSelector(token.transfer.selector, to, value));
     }
 
-    function safeTransferFrom(
-        IBEP20 token,
-        address from,
-        address to,
-        uint256 value
-    ) internal {
+    function safeTransferFrom(IBEP20 token, address from, address to, uint256 value) internal {
         _callOptionalReturn(token, abi.encodeWithSelector(token.transferFrom.selector, from, to, value));
     }
 
@@ -420,40 +392,26 @@ library SafeBEP20 {
      * Whenever possible, use {safeIncreaseAllowance} and
      * {safeDecreaseAllowance} instead.
      */
-    function safeApprove(
-        IBEP20 token,
-        address spender,
-        uint256 value
-    ) internal {
+    function safeApprove(IBEP20 token, address spender, uint256 value) internal {
         // safeApprove should only be called when setting an initial allowance,
         // or when resetting it to zero. To increase and decrease it, use
         // 'safeIncreaseAllowance' and 'safeDecreaseAllowance'
         // solhint-disable-next-line max-line-length
         require(
             (value == 0) || (token.allowance(address(this), spender) == 0),
-            'SafeBEP20: approve from non-zero to non-zero allowance'
+            "SafeBEP20: approve from non-zero to non-zero allowance"
         );
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, value));
     }
 
-    function safeIncreaseAllowance(
-        IBEP20 token,
-        address spender,
-        uint256 value
-    ) internal {
+    function safeIncreaseAllowance(IBEP20 token, address spender, uint256 value) internal {
         uint256 newAllowance = token.allowance(address(this), spender).add(value);
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
     }
 
-    function safeDecreaseAllowance(
-        IBEP20 token,
-        address spender,
-        uint256 value
-    ) internal {
-        uint256 newAllowance = token.allowance(address(this), spender).sub(
-            value,
-            'SafeBEP20: decreased allowance below zero'
-        );
+    function safeDecreaseAllowance(IBEP20 token, address spender, uint256 value) internal {
+        uint256 newAllowance =
+            token.allowance(address(this), spender).sub(value, "SafeBEP20: decreased allowance below zero");
         _callOptionalReturn(token, abi.encodeWithSelector(token.approve.selector, spender, newAllowance));
     }
 
@@ -468,11 +426,11 @@ library SafeBEP20 {
         // we're implementing it ourselves. We use {Address.functionCall} to perform this call, which verifies that
         // the target address contains contract code and also asserts for success in the low-level call.
 
-        bytes memory returndata = address(token).functionCall(data, 'SafeBEP20: low-level call failed');
+        bytes memory returndata = address(token).functionCall(data, "SafeBEP20: low-level call failed");
         if (returndata.length > 0) {
             // Return data is optional
             // solhint-disable-next-line max-line-length
-            require(abi.decode(returndata, (bool)), 'SafeBEP20: BEP20 operation did not succeed');
+            require(abi.decode(returndata, (bool)), "SafeBEP20: BEP20 operation did not succeed");
         }
     }
 }
@@ -528,11 +486,11 @@ library Address {
      * https://solidity.readthedocs.io/en/v0.5.11/security-considerations.html#use-the-checks-effects-interactions-pattern[checks-effects-interactions pattern].
      */
     function sendValue(address payable recipient, uint256 amount) internal {
-        require(address(this).balance >= amount, 'Address: insufficient balance');
+        require(address(this).balance >= amount, "Address: insufficient balance");
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
-        (bool success, ) = recipient.call{value: amount}('');
-        require(success, 'Address: unable to send value, recipient may have reverted');
+        (bool success,) = recipient.call{value: amount}("");
+        require(success, "Address: unable to send value, recipient may have reverted");
     }
 
     /**
@@ -554,7 +512,7 @@ library Address {
      * _Available since v3.1._
      */
     function functionCall(address target, bytes memory data) internal returns (bytes memory) {
-        return functionCall(target, data, 'Address: low-level call failed');
+        return functionCall(target, data, "Address: low-level call failed");
     }
 
     /**
@@ -563,11 +521,10 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCall(
-        address target,
-        bytes memory data,
-        string memory errorMessage
-    ) internal returns (bytes memory) {
+    function functionCall(address target, bytes memory data, string memory errorMessage)
+        internal
+        returns (bytes memory)
+    {
         return _functionCallWithValue(target, data, 0, errorMessage);
     }
 
@@ -582,12 +539,8 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(
-        address target,
-        bytes memory data,
-        uint256 value
-    ) internal returns (bytes memory) {
-        return functionCallWithValue(target, data, value, 'Address: low-level call with value failed');
+    function functionCallWithValue(address target, bytes memory data, uint256 value) internal returns (bytes memory) {
+        return functionCallWithValue(target, data, value, "Address: low-level call with value failed");
     }
 
     /**
@@ -596,23 +549,19 @@ library Address {
      *
      * _Available since v3.1._
      */
-    function functionCallWithValue(
-        address target,
-        bytes memory data,
-        uint256 value,
-        string memory errorMessage
-    ) internal returns (bytes memory) {
-        require(address(this).balance >= value, 'Address: insufficient balance for call');
+    function functionCallWithValue(address target, bytes memory data, uint256 value, string memory errorMessage)
+        internal
+        returns (bytes memory)
+    {
+        require(address(this).balance >= value, "Address: insufficient balance for call");
         return _functionCallWithValue(target, data, value, errorMessage);
     }
 
-    function _functionCallWithValue(
-        address target,
-        bytes memory data,
-        uint256 weiValue,
-        string memory errorMessage
-    ) private returns (bytes memory) {
-        require(isContract(target), 'Address: call to non-contract');
+    function _functionCallWithValue(address target, bytes memory data, uint256 weiValue, string memory errorMessage)
+        private
+        returns (bytes memory)
+    {
+        require(isContract(target), "Address: call to non-contract");
 
         // solhint-disable-next-line avoid-low-level-calls
         (bool success, bytes memory returndata) = target.call{value: weiValue}(data);
@@ -680,91 +629,401 @@ abstract contract ReentrancyGuard {
 
 // interface IPriceConver {
 //     function getPice() internal view returns(uint256){}
-    
+
+// }
+
+// contract TaccStaking is Ownable, ReentrancyGuard {
+//     using SafeMath for uint256;
+//     using SafeBEP20 for IBEP20;
+//     using PriceConverter for uint256;
+
+//     error InsufficientFee();
+//     error InvalidAddress();
+//     // AggregatorV3Interface public  priceFeed;
+//     // uint256 public fixedUsdFee = 0.5 * 1e18;
+//     // address public feeCollector;
+
+//     // Info of each user.
+//     struct UserInfo {
+//         uint256 amount; // How many LP tokens the user has provided.
+//         uint256 rewardDebt; // Reward debt. See explanation below.
+//     }
+
+//     // Info of each pool.
+//     struct PoolInfo {
+//         IBEP20 lpToken; // Address of LP token contract.
+//         uint256 allocPoint; // How many allocation points assigned to this pool. Tokens to distribute per block.
+//         uint256 lastRewardTimestamp; // Last block number that Tokens distribution occurs.
+//         uint256 accTokensPerShare; // Accumulated Tokens per share, times 1e12. See below.
+//     }
+
+//     IBEP20 public stakingToken;
+//     IBEP20 public rewardToken;
+//     mapping(address => uint256) public holderUnlockTime;
+
+//     uint256 public totalStaked;
+//     uint256 public apy;
+//     uint256 public lockDuration;
+//     uint256 public exitPenaltyPerc;
+//     // IOrocleAggregatorV2 private  priceFeed;
+//     uint256 public fixedUsdFee = 0.5 * 10 ** 18;
+//     address public feeCollector;
+//     //  PriceConverter priceConverter;
+//     // Info of each pool.
+//     PoolInfo[] public poolInfo;
+//     // Info of each user that stakes LP tokens.
+//     mapping(address => UserInfo) public userInfo;
+//     // Total allocation poitns. Must be the sum of all allocation points in all pools.
+//     uint256 private totalAllocPoint = 0;
+
+//     event Deposit(address indexed user, uint256 amount);
+//     event Withdraw(address indexed user, uint256 amount);
+//     event EmergencyWithdraw(address indexed user, uint256 amount);
+//     // event SetOrocle(IOrocleAggregatorV2 PriceFeed, address newOrocle );
+
+//     constructor(
+//         address _stakingReward,
+//         address _rewardToken,
+//         // address _bnbUsdPriceFeed,
+//         address _feeCollector,
+//         uint256 _lockDuration,
+//         uint256 _apy,
+//         uint256 _exitPenaltyPerc
+//     ) {
+//         stakingToken = IBEP20(_stakingReward);
+//         rewardToken = IBEP20(_rewardToken);
+//         feeCollector = _feeCollector;
+//         // priceFeed =  IOrocleAggregatorV2(_bnbUsdPriceFeed);
+//         //   priceConverter = PriceConverter(_bnbUsdPriceFeed);
+//         // PriceConverter(_bnbUsdPriceFeed);
+
+//         apy = _apy; // 100 for start
+//         lockDuration = _lockDuration;
+//         exitPenaltyPerc = _exitPenaltyPerc; //10;
+
+//         // staking pool
+//         poolInfo.push(
+//             PoolInfo({lpToken: stakingToken, allocPoint: 1000, lastRewardTimestamp: 21616747, accTokensPerShare: 0})
+//         );
+
+//         totalAllocPoint = 1000;
+//     }
+
+//     function stopReward() external onlyOwner {
+//         updatePool(0);
+//         apy = 0;
+//     }
+
+//     function startReward() external onlyOwner {
+//         require(poolInfo[0].lastRewardTimestamp == 21616747, "Can only start rewards once");
+//         poolInfo[0].lastRewardTimestamp = block.timestamp;
+//     }
+
+//     // View function to see pending Reward on frontend.
+//     function pendingReward(address _user) external view returns (uint256) {
+//         PoolInfo storage pool = poolInfo[0];
+//         UserInfo storage user = userInfo[_user];
+//         if (pool.lastRewardTimestamp == 21616747) {
+//             return 0;
+//         }
+//         uint256 accTokensPerShare = pool.accTokensPerShare;
+//         uint256 lpSupply = totalStaked;
+//         if (block.timestamp > pool.lastRewardTimestamp && lpSupply != 0) {
+//             uint256 tokenReward = calculateNewRewards().mul(pool.allocPoint).div(totalAllocPoint);
+//             accTokensPerShare = accTokensPerShare.add(tokenReward.mul(1e12).div(lpSupply));
+//         }
+//         return user.amount.mul(accTokensPerShare).div(1e12).sub(user.rewardDebt);
+//     }
+
+//     // Update reward variables of the given pool to be up-to-date.
+//     function updatePool(uint256 _pid) internal {
+//         PoolInfo storage pool = poolInfo[_pid];
+//         if (block.timestamp <= pool.lastRewardTimestamp) {
+//             return;
+//         }
+//         uint256 lpSupply = totalStaked;
+//         if (lpSupply == 0) {
+//             pool.lastRewardTimestamp = block.timestamp;
+//             return;
+//         }
+//         uint256 tokenReward = calculateNewRewards().mul(pool.allocPoint).div(totalAllocPoint);
+//         pool.accTokensPerShare = pool.accTokensPerShare.add(tokenReward.mul(1e12).div(lpSupply));
+//         pool.lastRewardTimestamp = block.timestamp;
+//     }
+
+//     // Update reward variables for all pools. Be careful of gas spending!
+//     function massUpdatePools() public onlyOwner {
+//         uint256 length = poolInfo.length;
+//         for (uint256 pid = 0; pid < length; ++pid) {
+//             updatePool(pid);
+//         }
+//     }
+
+//     function getAmountOfFeeInBNB() public view returns (uint256) {
+//         uint256 usdFee = fixedUsdFee;
+//         uint256 bnbPrice = PriceConverter.getPrice();
+//         uint256 requiredBNB = (usdFee * 1e18) / bnbPrice;
+//         return requiredBNB;
+//     }
+
+//     // Stake primary tokens
+//     function deposit(uint256 _amount) public payable nonReentrant {
+//         uint256 requiredFee = getAmountOfFeeInBNB();
+
+//         if (requiredFee > 0) {
+//             require(msg.value >= requiredFee, "Insufficient fee");
+//             _sendFees(feeCollector, requiredFee);
+//         } else {
+//             revert InsufficientFee();
+//         }
+
+//         if (holderUnlockTime[msg.sender] == 0) {
+//             holderUnlockTime[msg.sender] = block.timestamp + lockDuration;
+//         }
+
+//         PoolInfo storage pool = poolInfo[0];
+//         UserInfo storage user = userInfo[msg.sender];
+
+//         updatePool(0);
+//         if (user.amount > 0) {
+//             uint256 pending = user.amount.mul(pool.accTokensPerShare).div(1e12).sub(user.rewardDebt);
+//             if (pending > 0) {
+//                 require(
+//                     pending <= rewardsRemaining(), "Cannot withdraw other people's staked tokens.  Contact an admin."
+//                 );
+//                 rewardToken.safeTransfer(address(msg.sender), pending);
+//             }
+//         }
+//         uint256 amountTransferred = 0;
+//         if (_amount > 0) {
+//             uint256 initialBalance = pool.lpToken.balanceOf(address(this));
+//             pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
+//             amountTransferred = pool.lpToken.balanceOf(address(this)) - initialBalance;
+//             user.amount = user.amount.add(amountTransferred);
+//             totalStaked += amountTransferred;
+//         }
+//         user.rewardDebt = user.amount.mul(pool.accTokensPerShare).div(1e12);
+
+//         emit Deposit(msg.sender, _amount);
+//     }
+
+//     // Withdraw primary tokens from STAKING.
+
+//     function withdraw(uint256 _amount) public payable nonReentrant {
+//         uint256 requiredFee = getAmountOfFeeInBNB();
+
+//         if (requiredFee > 0) {
+//             require(msg.value >= requiredFee, "Insufficient fee");
+//             _sendFees(feeCollector, requiredFee);
+//         } else {
+//             revert InsufficientFee();
+//         }
+
+//         require(holderUnlockTime[msg.sender] <= block.timestamp, "May not do normal withdraw early");
+
+//         PoolInfo storage pool = poolInfo[0];
+//         UserInfo storage user = userInfo[msg.sender];
+
+//         _amount = user.amount;
+//         //   user.amount = _amount
+//         updatePool(0);
+//         uint256 pending = user.amount.mul(pool.accTokensPerShare).div(1e12).sub(user.rewardDebt);
+//         if (pending > 0) {
+//             require(pending <= rewardsRemaining(), "Cannot withdraw other people's staked tokens.  Contact an admin.");
+//             rewardToken.safeTransfer(address(msg.sender), pending);
+//         }
+
+//         if (_amount > 0) {
+//             user.amount = 0;
+//             totalStaked -= _amount;
+//             pool.lpToken.safeTransfer(address(msg.sender), _amount);
+//         }
+
+//         user.rewardDebt = user.amount.mul(pool.accTokensPerShare).div(1e12);
+
+//         if (user.amount > 0) {
+//             holderUnlockTime[msg.sender] = block.timestamp + lockDuration;
+//         } else {
+//             holderUnlockTime[msg.sender] = 0;
+//         }
+
+//         emit Withdraw(msg.sender, _amount);
+//     }
+
+//     function _sendFees(address to, uint256 amount) internal {
+//         if (to == address(0)) revert InvalidAddress();
+
+//         //  (bool sent,) = to.call{value: amount}("");
+//         //  require(sent, "Failed to sent");
+//         //  (bool sent, bytes memory data) = to.call{value: amount}("");
+//         // require(sent, "Failed to send Ether");
+//         // payable(to).transfer(amount);
+//         (bool success,) = to.call{value: amount}(new bytes(0));
+//         require(success, "Staking: ETH_TRANSFER_FAILED");
+//     }
+
+//     // Withdraw without caring about rewards. EMERGENCY ONLY.
+//     function emergencyWithdraw() external nonReentrant {
+//         PoolInfo storage pool = poolInfo[0];
+//         UserInfo storage user = userInfo[msg.sender];
+//         uint256 _amount = user.amount;
+//         totalStaked -= _amount;
+//         // exit penalty for early unstakers, penalty held on contract as rewards.
+//         if (holderUnlockTime[msg.sender] >= block.timestamp) {
+//             _amount -= _amount * exitPenaltyPerc / 100;
+//         }
+//         holderUnlockTime[msg.sender] = 0;
+//         pool.lpToken.safeTransfer(address(msg.sender), _amount);
+//         user.amount = 0;
+//         user.rewardDebt = 0;
+//         emit EmergencyWithdraw(msg.sender, _amount);
+//     }
+
+//     // Withdraw reward. EMERGENCY ONLY. This allows the owner to migrate rewards to a new staking pool since we are not minting new tokens.
+//     function emergencyWithdrawR(uint256 _amount) external onlyOwner {
+//         require(_amount <= rewardToken.balanceOf(address(this)) - totalStaked, "not enough tokens to take out");
+//         rewardToken.safeTransfer(address(msg.sender), _amount);
+//     }
+
+//     function clearforeignToken(address tokenAddress, uint256 tokens) external onlyOwner returns (bool success) {
+//         require(tokenAddress != address(rewardToken), "Cannot withdraw reward token");
+//         if (tokens == 0) {
+//             tokens = IBEP20(tokenAddress).balanceOf(address(this));
+//         }
+//         return IBEP20(tokenAddress).transfer(msg.sender, tokens);
+//     }
+
+//     function calculateNewRewards() public view returns (uint256) {
+//         PoolInfo storage pool = poolInfo[0];
+//         if (pool.lastRewardTimestamp > block.timestamp) {
+//             return 0;
+//         }
+//         return (((block.timestamp - pool.lastRewardTimestamp) * totalStaked) * apy / 100 / 365 days);
+//     }
+
+//     function rewardsRemaining() public view returns (uint256) {
+//         return rewardToken.balanceOf(address(this)) - totalStaked;
+//     }
+
+//     function updateApy(uint256 newApy) external onlyOwner {
+//         require(newApy <= 10000, "APY must be below 10000%");
+//         updatePool(0);
+//         apy = newApy;
+//     }
+
+//     function updatelockduration(uint256 newlockDuration) external onlyOwner {
+//         require(newlockDuration <= 4838400, "Duration must be below 4 weeks");
+//         lockDuration = newlockDuration;
+//     }
+
+//     function updateExitPenalty(uint256 newPenaltyPerc) external onlyOwner {
+//         require(newPenaltyPerc <= 30, "May not set higher than 30%");
+//         exitPenaltyPerc = newPenaltyPerc;
+//     }
+
+//     // function getBnbFee() public view returns (uint256) {
+//     // // Fetch latest BNB/USD price from Chainlink
+//     // // (, int256 price, , , ) = priceFeed.latestRoundData();
+//     // // uint256 bnbUsdPrice = uint256(price); // Price in USD with 8 decimals (e.g., 300 USD = 300 * 1e8)
+
+//     // // // Calculate BNB amount for $0.50 (0.5e18 USD decimals)
+//     // // // Formula: (USD fee * 1e18) / (BNB price * 1e8) = BNB fee in wei
+//     // // uint256 bnbFee = (fixedUsdFee * 1e18) / (bnbUsdPrice * 1e10);
+
+//     // // return bnbFee;
+//     //  uint256 bnbUsdPrice = uint256(priceFeed.getLatestData(1, bytes20("BNB"))) / 1e9;
+
+//     //     return (fixedUsdFee * 1e18) / bnbUsdPrice; // Returns fee in BNB (18 decimals)
+//     // }
+
+//     function setFeeCollector(address _newFeeCollector) external onlyOwner {
+//         if (_newFeeCollector == address(0)) revert InvalidAddress();
+//         feeCollector = _newFeeCollector;
+//     }
+
+//     function setFees(uint256 newFees) external onlyOwner {
+//         fixedUsdFee = newFees;
+//     }
+
+//     function getPriceofBNB() public view returns (uint256) {
+//         return PriceConverter.getPrice();
+//     }
+//     //   function setOrocle(address newOrocle) external onlyOwner {
+
+//     //         priceFeed = IOrocleAggregatorV2(newOrocle);
+//     //         emit SetOrocle(priceFeed, newOrocle);
+//     //     }
+
+//     receive() external payable {}
 // }
 
 contract TaccStaking is Ownable, ReentrancyGuard {
     using SafeMath for uint256;
     using SafeBEP20 for IBEP20;
     using PriceConverter for uint256;
-     error InsufficientFee();
-     error InvalidAddress();
-    // AggregatorV3Interface public  priceFeed;
-    // uint256 public fixedUsdFee = 0.5 * 1e18; 
-    // address public feeCollector;
+
+    error InsufficientFee();
+    error InvalidAddress();
 
     // Info of each user.
     struct UserInfo {
-        uint256 amount;     // How many LP tokens the user has provided.
+        uint256 amount; // How many LP tokens the user has provided.
         uint256 rewardDebt; // Reward debt. See explanation below.
+        uint256 stakeTimestamp; // When user staked
+        uint256 maxRewardTime; // When rewards stop accruing for this user
     }
 
     // Info of each pool.
     struct PoolInfo {
-        IBEP20 lpToken;           // Address of LP token contract.
-        uint256 allocPoint;       // How many allocation points assigned to this pool. Tokens to distribute per block.
-        uint256 lastRewardTimestamp;  // Last block number that Tokens distribution occurs.
-        uint256 accTokensPerShare; // Accumulated Tokens per share, times 1e12. See below.
+        IBEP20 lpToken; // Address of LP token contract.
+        uint256 allocPoint; // How many allocation points assigned to this pool.
+        uint256 lastRewardTimestamp; // Last block number that Tokens distribution occurs.
+        uint256 accTokensPerShare; // Accumulated Tokens per share, times 1e12.
     }
 
-    IBEP20 public  stakingToken;
+    IBEP20 public stakingToken;
     IBEP20 public rewardToken;
-    mapping (address => uint256) public holderUnlockTime;
+    mapping(address => uint256) public holderUnlockTime;
 
     uint256 public totalStaked;
     uint256 public apy;
     uint256 public lockDuration;
     uint256 public exitPenaltyPerc;
-    // IOrocleAggregatorV2 private  priceFeed;
-    uint256 public fixedUsdFee = 0.5 * 10 ** 18; 
+    uint256 public fixedUsdFee = 0.5 * 10 ** 18;
     address public feeCollector;
-    //  PriceConverter priceConverter;
+
     // Info of each pool.
     PoolInfo[] public poolInfo;
     // Info of each user that stakes LP tokens.
-    mapping (address => UserInfo) public userInfo;
-    // Total allocation poitns. Must be the sum of all allocation points in all pools.
+    mapping(address => UserInfo) public userInfo;
+    // Total allocation points. Must be the sum of all allocation points in all pools.
     uint256 private totalAllocPoint = 0;
 
     event Deposit(address indexed user, uint256 amount);
     event Withdraw(address indexed user, uint256 amount);
     event EmergencyWithdraw(address indexed user, uint256 amount);
-    // event SetOrocle(IOrocleAggregatorV2 PriceFeed, address newOrocle );
 
     constructor(
         address _stakingReward,
         address _rewardToken,
-        // address _bnbUsdPriceFeed,
         address _feeCollector,
         uint256 _lockDuration,
         uint256 _apy,
         uint256 _exitPenaltyPerc
-
-        
-       
     ) {
         stakingToken = IBEP20(_stakingReward);
-        rewardToken =  IBEP20(_rewardToken);
+        rewardToken = IBEP20(_rewardToken);
         feeCollector = _feeCollector;
-        // priceFeed =  IOrocleAggregatorV2(_bnbUsdPriceFeed);
-        //   priceConverter = PriceConverter(_bnbUsdPriceFeed);
-        // PriceConverter(_bnbUsdPriceFeed);
-        
-        
-        apy = _apy;// 100 for start
+        apy = _apy;
         lockDuration = _lockDuration;
-        exitPenaltyPerc = _exitPenaltyPerc; //10;
+        exitPenaltyPerc = _exitPenaltyPerc;
 
         // staking pool
-        poolInfo.push(PoolInfo({
-            lpToken: stakingToken,
-            allocPoint: 1000,
-            lastRewardTimestamp: 21616747,
-            accTokensPerShare: 0
-        }));
+        poolInfo.push(
+            PoolInfo({lpToken: stakingToken, allocPoint: 1000, lastRewardTimestamp: 21616747, accTokensPerShare: 0})
+        );
 
         totalAllocPoint = 1000;
-
     }
 
     function stopReward() external onlyOwner {
@@ -781,15 +1040,64 @@ contract TaccStaking is Ownable, ReentrancyGuard {
     function pendingReward(address _user) external view returns (uint256) {
         PoolInfo storage pool = poolInfo[0];
         UserInfo storage user = userInfo[_user];
-        if(pool.lastRewardTimestamp == 21616747){
+
+        if (pool.lastRewardTimestamp == 21616747 || user.amount == 0) {
             return 0;
         }
+
         uint256 accTokensPerShare = pool.accTokensPerShare;
         uint256 lpSupply = totalStaked;
+
         if (block.timestamp > pool.lastRewardTimestamp && lpSupply != 0) {
-            uint256 tokenReward = calculateNewRewards().mul(pool.allocPoint).div(totalAllocPoint);
-            accTokensPerShare = accTokensPerShare.add(tokenReward.mul(1e12).div(lpSupply));
+            // Calculate rewards but cap at user's max reward time
+            uint256 effectiveEndTime = _getEffectiveRewardEndTime(_user, block.timestamp);
+            uint256 timeForRewards =
+                effectiveEndTime > pool.lastRewardTimestamp ? effectiveEndTime - pool.lastRewardTimestamp : 0;
+
+            if (timeForRewards > 0) {
+                uint256 tokenReward = (timeForRewards.mul(totalStaked).mul(apy).div(100).div(365 days)).mul(
+                    pool.allocPoint
+                ).div(totalAllocPoint);
+                accTokensPerShare = accTokensPerShare.add(tokenReward.mul(1e12).div(lpSupply));
+            }
         }
+
+        return user.amount.mul(accTokensPerShare).div(1e12).sub(user.rewardDebt);
+    }
+
+    // Internal function to get effective reward end time for a user
+    function _getEffectiveRewardEndTime(address _user, uint256 _currentTime) internal view returns (uint256) {
+        UserInfo storage user = userInfo[_user];
+        if (user.maxRewardTime == 0) return _currentTime;
+        return _currentTime > user.maxRewardTime ? user.maxRewardTime : _currentTime;
+    }
+
+    // Calculate pending rewards for a specific user with time constraints
+    function _calculateUserPendingReward(address _user) internal view returns (uint256) {
+        PoolInfo storage pool = poolInfo[0];
+        UserInfo storage user = userInfo[_user];
+
+        if (pool.lastRewardTimestamp == 21616747 || user.amount == 0) {
+            return 0;
+        }
+
+        uint256 accTokensPerShare = pool.accTokensPerShare;
+        uint256 lpSupply = totalStaked;
+
+        if (block.timestamp > pool.lastRewardTimestamp && lpSupply != 0) {
+            // Calculate rewards but cap at user's max reward time
+            uint256 effectiveEndTime = _getEffectiveRewardEndTime(_user, block.timestamp);
+            uint256 timeForRewards =
+                effectiveEndTime > pool.lastRewardTimestamp ? effectiveEndTime - pool.lastRewardTimestamp : 0;
+
+            if (timeForRewards > 0) {
+                uint256 tokenReward = (timeForRewards.mul(totalStaked).mul(apy).div(100).div(365 days)).mul(
+                    pool.allocPoint
+                ).div(totalAllocPoint);
+                accTokensPerShare = accTokensPerShare.add(tokenReward.mul(1e12).div(lpSupply));
+            }
+        }
+
         return user.amount.mul(accTokensPerShare).div(1e12).sub(user.rewardDebt);
     }
 
@@ -799,17 +1107,29 @@ contract TaccStaking is Ownable, ReentrancyGuard {
         if (block.timestamp <= pool.lastRewardTimestamp) {
             return;
         }
+
         uint256 lpSupply = totalStaked;
         if (lpSupply == 0) {
             pool.lastRewardTimestamp = block.timestamp;
             return;
         }
-        uint256 tokenReward = calculateNewRewards().mul(pool.allocPoint).div(totalAllocPoint);
+
+        // Calculate rewards for the time period, considering individual user caps
+        uint256 tokenReward = _calculatePoolRewards(pool.lastRewardTimestamp, block.timestamp);
         pool.accTokensPerShare = pool.accTokensPerShare.add(tokenReward.mul(1e12).div(lpSupply));
         pool.lastRewardTimestamp = block.timestamp;
     }
 
-    // Update reward variables for all pools. Be careful of gas spending!
+    // Calculate pool rewards considering user-specific reward caps
+    function _calculatePoolRewards(uint256 _fromTime, uint256 _toTime) internal view returns (uint256) {
+        if (_toTime <= _fromTime) return 0;
+
+        // For simplicity, calculate average reward rate
+        // In a more sophisticated version, you'd track each user's contribution separately
+        uint256 timeElapsed = _toTime.sub(_fromTime);
+        return timeElapsed.mul(totalStaked).mul(apy).div(100).div(365 days);
+    }
+
     function massUpdatePools() public onlyOwner {
         uint256 length = poolInfo.length;
         for (uint256 pid = 0; pid < length; ++pid) {
@@ -817,111 +1137,105 @@ contract TaccStaking is Ownable, ReentrancyGuard {
         }
     }
 
-    function getAmountOfFeeInBNB() public view returns(uint256) {
-    uint256 usdFee = fixedUsdFee;
-    uint256 bnbPrice = PriceConverter.getPrice();
-    uint256 requiredBNB = (usdFee * 1e18) / bnbPrice;
-    return requiredBNB;
-}
+    function getAmountOfFeeInBNB() public view returns (uint256) {
+        uint256 usdFee = fixedUsdFee;
+        uint256 bnbPrice = PriceConverter.getPrice();
+        uint256 requiredBNB = (usdFee * 1e18) / bnbPrice;
+        return requiredBNB;
+    }
 
     // Stake primary tokens
     function deposit(uint256 _amount) public payable nonReentrant {
+        uint256 requiredFee = getAmountOfFeeInBNB();
 
-     uint256 requiredFee = getAmountOfFeeInBNB();
-        
-    if(requiredFee > 0) {
-         require(msg.value >= requiredFee, "Insufficient fee");
-        _sendFees(feeCollector, requiredFee);
-    } else {
-        revert InsufficientFee();
-    }
-  
-        if(holderUnlockTime[msg.sender] == 0){
-            holderUnlockTime[msg.sender] = block.timestamp + lockDuration;
+        if (requiredFee > 0) {
+            require(msg.value >= requiredFee, "Insufficient fee");
+            _sendFees(feeCollector, requiredFee);
+        } else {
+            revert InsufficientFee();
         }
-       
 
         PoolInfo storage pool = poolInfo[0];
         UserInfo storage user = userInfo[msg.sender];
 
         updatePool(0);
+
         if (user.amount > 0) {
             uint256 pending = user.amount.mul(pool.accTokensPerShare).div(1e12).sub(user.rewardDebt);
-            if(pending > 0) {
-                require(pending <= rewardsRemaining(), "Cannot withdraw other people's staked tokens.  Contact an admin.");
+            if (pending > 0) {
+                require(
+                    pending <= rewardsRemaining(), "Cannot withdraw other people's staked tokens. Contact an admin."
+                );
                 rewardToken.safeTransfer(address(msg.sender), pending);
             }
         }
+
         uint256 amountTransferred = 0;
-        if(_amount > 0) {
+        if (_amount > 0) {
             uint256 initialBalance = pool.lpToken.balanceOf(address(this));
             pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
             amountTransferred = pool.lpToken.balanceOf(address(this)) - initialBalance;
             user.amount = user.amount.add(amountTransferred);
             totalStaked += amountTransferred;
         }
+
+        // Set lock time and reward cap for new stakes
+        if (holderUnlockTime[msg.sender] == 0) {
+            holderUnlockTime[msg.sender] = block.timestamp + lockDuration;
+            user.stakeTimestamp = block.timestamp;
+            user.maxRewardTime = block.timestamp + lockDuration; // Rewards stop here
+        }
+
         user.rewardDebt = user.amount.mul(pool.accTokensPerShare).div(1e12);
 
         emit Deposit(msg.sender, _amount);
     }
 
     // Withdraw primary tokens from STAKING.
+    function withdraw(uint256 _amount) public payable nonReentrant {
+        uint256 requiredFee = getAmountOfFeeInBNB();
 
-    function withdraw(uint256 _amount) public payable  nonReentrant {
-         uint256 requiredFee = getAmountOfFeeInBNB();
-
-        if(requiredFee > 0) {
-         require(msg.value >= requiredFee, "Insufficient fee");
-        _sendFees(feeCollector, requiredFee);
-    } else {
-        
-        revert InsufficientFee(); 
-
-    }
+        if (requiredFee > 0) {
+            require(msg.value >= requiredFee, "Insufficient fee");
+            _sendFees(feeCollector, requiredFee);
+        } else {
+            revert InsufficientFee();
+        }
 
         require(holderUnlockTime[msg.sender] <= block.timestamp, "May not do normal withdraw early");
-      
 
         PoolInfo storage pool = poolInfo[0];
         UserInfo storage user = userInfo[msg.sender];
 
-         _amount = user.amount;
-        //   user.amount = _amount
-        updatePool(0);
-        uint256 pending = user.amount.mul(pool.accTokensPerShare).div(1e12).sub(user.rewardDebt);
-        if(pending > 0) {
-            require(pending <= rewardsRemaining(), "Cannot withdraw other people's staked tokens.  Contact an admin.");
+        _amount = user.amount; // Force full withdrawal
+
+        // Calculate user's pending reward with time constraints instead of updating pool
+        uint256 pending = _calculateUserPendingReward(msg.sender);
+
+        if (pending > 0) {
+            require(pending <= rewardsRemaining(), "Cannot withdraw other people's staked tokens. Contact an admin.");
             rewardToken.safeTransfer(address(msg.sender), pending);
         }
 
-        if(_amount > 0) {
+        if (_amount > 0) {
             user.amount = 0;
             totalStaked -= _amount;
             pool.lpToken.safeTransfer(address(msg.sender), _amount);
         }
 
-        user.rewardDebt = user.amount.mul(pool.accTokensPerShare).div(1e12);
-        
-        if(user.amount > 0){
-            holderUnlockTime[msg.sender] = block.timestamp + lockDuration;
-        } else {
-            holderUnlockTime[msg.sender] = 0;
-        }
+        user.rewardDebt = 0;
+        user.stakeTimestamp = 0;
+        user.maxRewardTime = 0;
+        holderUnlockTime[msg.sender] = 0;
 
         emit Withdraw(msg.sender, _amount);
     }
 
-     function _sendFees(address to, uint256 amount) internal  {
-         if(to == address(0)) revert InvalidAddress();
-
-        //  (bool sent,) = to.call{value: amount}("");
-        //  require(sent, "Failed to sent");
-        //  (bool sent, bytes memory data) = to.call{value: amount}("");
-        // require(sent, "Failed to send Ether");
-        // payable(to).transfer(amount);
-            (bool success,) = to.call{value : amount}(new bytes(0));
-            require(success, 'Staking: ETH_TRANSFER_FAILED');
-     }
+    function _sendFees(address to, uint256 amount) internal {
+        if (to == address(0)) revert InvalidAddress();
+        (bool success,) = to.call{value: amount}(new bytes(0));
+        require(success, "Staking: ETH_TRANSFER_FAILED");
+    }
 
     // Withdraw without caring about rewards. EMERGENCY ONLY.
     function emergencyWithdraw() external nonReentrant {
@@ -929,41 +1243,45 @@ contract TaccStaking is Ownable, ReentrancyGuard {
         UserInfo storage user = userInfo[msg.sender];
         uint256 _amount = user.amount;
         totalStaked -= _amount;
+
         // exit penalty for early unstakers, penalty held on contract as rewards.
-        if(holderUnlockTime[msg.sender] >= block.timestamp){
+        if (holderUnlockTime[msg.sender] >= block.timestamp) {
             _amount -= _amount * exitPenaltyPerc / 100;
         }
+
         holderUnlockTime[msg.sender] = 0;
+        user.stakeTimestamp = 0;
+        user.maxRewardTime = 0;
         pool.lpToken.safeTransfer(address(msg.sender), _amount);
         user.amount = 0;
         user.rewardDebt = 0;
+
         emit EmergencyWithdraw(msg.sender, _amount);
     }
 
-    // Withdraw reward. EMERGENCY ONLY. This allows the owner to migrate rewards to a new staking pool since we are not minting new tokens.
+    // Withdraw reward. EMERGENCY ONLY.
     function emergencyWithdrawR(uint256 _amount) external onlyOwner {
-        require(_amount <= rewardToken.balanceOf(address(this)) - totalStaked, 'not enough tokens to take out');
+        require(_amount <= rewardToken.balanceOf(address(this)) - totalStaked, "not enough tokens to take out");
         rewardToken.safeTransfer(address(msg.sender), _amount);
     }
 
     function clearforeignToken(address tokenAddress, uint256 tokens) external onlyOwner returns (bool success) {
-        require(tokenAddress != address (rewardToken),"Cannot withdraw reward token");
-        if(tokens == 0){
+        require(tokenAddress != address(rewardToken), "Cannot withdraw reward token");
+        if (tokens == 0) {
             tokens = IBEP20(tokenAddress).balanceOf(address(this));
         }
         return IBEP20(tokenAddress).transfer(msg.sender, tokens);
     }
-    
 
     function calculateNewRewards() public view returns (uint256) {
         PoolInfo storage pool = poolInfo[0];
-        if(pool.lastRewardTimestamp > block.timestamp){
+        if (pool.lastRewardTimestamp > block.timestamp) {
             return 0;
         }
         return (((block.timestamp - pool.lastRewardTimestamp) * totalStaked) * apy / 100 / 365 days);
     }
 
-    function rewardsRemaining() public view returns (uint256){
+    function rewardsRemaining() public view returns (uint256) {
         return rewardToken.balanceOf(address(this)) - totalStaked;
     }
 
@@ -976,7 +1294,6 @@ contract TaccStaking is Ownable, ReentrancyGuard {
     function updatelockduration(uint256 newlockDuration) external onlyOwner {
         require(newlockDuration <= 4838400, "Duration must be below 4 weeks");
         lockDuration = newlockDuration;
-
     }
 
     function updateExitPenalty(uint256 newPenaltyPerc) external onlyOwner {
@@ -984,41 +1301,28 @@ contract TaccStaking is Ownable, ReentrancyGuard {
         exitPenaltyPerc = newPenaltyPerc;
     }
 
-    // function getBnbFee() public view returns (uint256) {
-    // // Fetch latest BNB/USD price from Chainlink
-    // // (, int256 price, , , ) = priceFeed.latestRoundData();
-    // // uint256 bnbUsdPrice = uint256(price); // Price in USD with 8 decimals (e.g., 300 USD = 300 * 1e8)
+    function setFeeCollector(address _newFeeCollector) external onlyOwner {
+        if (_newFeeCollector == address(0)) revert InvalidAddress();
+        feeCollector = _newFeeCollector;
+    }
 
-    // // // Calculate BNB amount for $0.50 (0.5e18 USD decimals)
-    // // // Formula: (USD fee * 1e18) / (BNB price * 1e8) = BNB fee in wei
-    // // uint256 bnbFee = (fixedUsdFee * 1e18) / (bnbUsdPrice * 1e10);
-    
-    // // return bnbFee;
-    //  uint256 bnbUsdPrice = uint256(priceFeed.getLatestData(1, bytes20("BNB"))) / 1e9;
+    function setFees(uint256 newFees) external onlyOwner {
+        fixedUsdFee = newFees;
+    }
 
-    //     return (fixedUsdFee * 1e18) / bnbUsdPrice; // Returns fee in BNB (18 decimals)
-// }
+    function getPriceofBNB() public view returns (uint256) {
+        return PriceConverter.getPrice();
+    }
 
-  function setFeeCollector(address _newFeeCollector) external onlyOwner {
-   
-   if(_newFeeCollector == address(0)) revert InvalidAddress(); 
-    feeCollector = _newFeeCollector;
-}
- function setFees(uint256 newFees) external onlyOwner {
-     fixedUsdFee = newFees;
- }
+    // View function to check user's reward period status
+    function getUserRewardInfo(address _user)
+        external
+        view
+        returns (uint256 stakeTimestamp, uint256 maxRewardTime, uint256 unlockTime, bool canEarnRewards)
+    {
+        UserInfo storage user = userInfo[_user];
+        return (user.stakeTimestamp, user.maxRewardTime, holderUnlockTime[_user], block.timestamp < user.maxRewardTime);
+    }
 
-  function getPriceofBNB() public view returns(uint256) {
-      return PriceConverter.getPrice();
-  }
-//   function setOrocle(address newOrocle) external onlyOwner {
-        
-//         priceFeed = IOrocleAggregatorV2(newOrocle);
-//         emit SetOrocle(priceFeed, newOrocle);
-//     }
-
-
-     receive() external payable {}
-   
-
+    receive() external payable {}
 }

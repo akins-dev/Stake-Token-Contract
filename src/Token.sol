@@ -1,4 +1,4 @@
- // SPDX-License-Identifier: MIT
+    // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.13;
 
@@ -8,10 +8,7 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryAdd(
-        uint256 a,
-        uint256 b
-    ) internal pure returns (bool, uint256) {
+    function tryAdd(uint256 a, uint256 b) internal pure returns (bool, uint256) {
         unchecked {
             uint256 c = a + b;
             if (c < a) return (false, 0);
@@ -24,10 +21,7 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function trySub(
-        uint256 a,
-        uint256 b
-    ) internal pure returns (bool, uint256) {
+    function trySub(uint256 a, uint256 b) internal pure returns (bool, uint256) {
         unchecked {
             if (b > a) return (false, 0);
             return (true, a - b);
@@ -39,10 +33,7 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryMul(
-        uint256 a,
-        uint256 b
-    ) internal pure returns (bool, uint256) {
+    function tryMul(uint256 a, uint256 b) internal pure returns (bool, uint256) {
         unchecked {
             // Gas optimization: this is cheaper than requiring 'a' not being zero, but the
             // benefit is lost if 'b' is also tested.
@@ -59,10 +50,7 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryDiv(
-        uint256 a,
-        uint256 b
-    ) internal pure returns (bool, uint256) {
+    function tryDiv(uint256 a, uint256 b) internal pure returns (bool, uint256) {
         unchecked {
             if (b == 0) return (false, 0);
             return (true, a / b);
@@ -74,10 +62,7 @@ library SafeMath {
      *
      * _Available since v3.4._
      */
-    function tryMod(
-        uint256 a,
-        uint256 b
-    ) internal pure returns (bool, uint256) {
+    function tryMod(uint256 a, uint256 b) internal pure returns (bool, uint256) {
         unchecked {
             if (b == 0) return (false, 0);
             return (true, a % b);
@@ -169,11 +154,7 @@ library SafeMath {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         unchecked {
             require(b <= a, errorMessage);
             return a - b;
@@ -192,11 +173,7 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function div(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         unchecked {
             require(b > 0, errorMessage);
             return a / b;
@@ -218,11 +195,7 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function mod(
-        uint256 a,
-        uint256 b,
-        string memory errorMessage
-    ) internal pure returns (uint256) {
+    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
         unchecked {
             require(b > 0, errorMessage);
             return a % b;
@@ -248,10 +221,7 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transfer(
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
+    function transfer(address recipient, uint256 amount) external returns (bool);
 
     /**
      * @dev Returns the remaining number of tokens that `spender` will be
@@ -260,10 +230,7 @@ interface IERC20 {
      *
      * This value changes when {approve} or {transferFrom} are called.
      */
-    function allowance(
-        address owner,
-        address spender
-    ) external view returns (uint256);
+    function allowance(address owner, address spender) external view returns (uint256);
 
     /**
      * @dev Sets `amount` as the allowance of `spender` over the caller's tokens.
@@ -290,11 +257,7 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
+    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -308,11 +271,7 @@ interface IERC20 {
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
+    event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
 interface IERC20Metadata is IERC20 {
@@ -408,9 +367,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(
-        address account
-    ) public view virtual override returns (uint256) {
+    function balanceOf(address account) public view virtual override returns (uint256) {
         return _balances[account];
     }
 
@@ -422,10 +379,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `recipient` cannot be the zero address.
      * - the caller must have a balance of at least `amount`.
      */
-    function transfer(
-        address recipient,
-        uint256 amount
-    ) public virtual override returns (bool) {
+    function transfer(address recipient, uint256 amount) public virtual override returns (bool) {
         _transfer(_msgSender(), recipient, amount);
         return true;
     }
@@ -433,10 +387,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     /**
      * @dev See {IERC20-allowance}.
      */
-    function allowance(
-        address owner,
-        address spender
-    ) public view virtual override returns (uint256) {
+    function allowance(address owner, address spender) public view virtual override returns (uint256) {
         return _allowances[owner][spender];
     }
 
@@ -447,10 +398,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      *
      * - `spender` cannot be the zero address.
      */
-    function approve(
-        address spender,
-        uint256 amount
-    ) public virtual override returns (bool) {
+    function approve(address spender, uint256 amount) public virtual override returns (bool) {
         _approve(_msgSender(), spender, amount);
         return true;
     }
@@ -468,18 +416,11 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - the caller must have allowance for ``sender``'s tokens of at least
      * `amount`.
      */
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) public virtual override returns (bool) {
+    function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
         _transfer(sender, recipient, amount);
 
         uint256 currentAllowance = _allowances[sender][_msgSender()];
-        require(
-            currentAllowance >= amount,
-            "ERC20: transfer amount exceeds allowance"
-        );
+        require(currentAllowance >= amount, "ERC20: transfer amount exceeds allowance");
         unchecked {
             _approve(sender, _msgSender(), currentAllowance - amount);
         }
@@ -499,15 +440,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      *
      * - `spender` cannot be the zero address.
      */
-    function increaseAllowance(
-        address spender,
-        uint256 addedValue
-    ) public virtual returns (bool) {
-        _approve(
-            _msgSender(),
-            spender,
-            _allowances[_msgSender()][spender] + addedValue
-        );
+    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
+        _approve(_msgSender(), spender, _allowances[_msgSender()][spender] + addedValue);
         return true;
     }
 
@@ -525,15 +459,9 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `spender` must have allowance for the caller of at least
      * `subtractedValue`.
      */
-    function decreaseAllowance(
-        address spender,
-        uint256 subtractedValue
-    ) public virtual returns (bool) {
+    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
         uint256 currentAllowance = _allowances[_msgSender()][spender];
-        require(
-            currentAllowance >= subtractedValue,
-            "ERC20: decreased allowance below zero"
-        );
+        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
         unchecked {
             _approve(_msgSender(), spender, currentAllowance - subtractedValue);
         }
@@ -555,21 +483,14 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `recipient` cannot be the zero address.
      * - `sender` must have a balance of at least `amount`.
      */
-    function _transfer(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) internal virtual {
+    function _transfer(address sender, address recipient, uint256 amount) internal virtual {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
 
         _beforeTokenTransfer(sender, recipient, amount);
 
         uint256 senderBalance = _balances[sender];
-        require(
-            senderBalance >= amount,
-            "ERC20: transfer amount exceeds balance"
-        );
+        require(senderBalance >= amount, "ERC20: transfer amount exceeds balance");
         unchecked {
             _balances[sender] = senderBalance - amount;
         }
@@ -580,7 +501,8 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
         _afterTokenTransfer(sender, recipient, amount);
     }
 
-    /** @dev Creates `amount` tokens and assigns them to `account`, increasing
+    /**
+     * @dev Creates `amount` tokens and assigns them to `account`, increasing
      * the total supply.
      *
      * Emits a {Transfer} event with `from` set to the zero address.
@@ -642,11 +564,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      * - `owner` cannot be the zero address.
      * - `spender` cannot be the zero address.
      */
-    function _approve(
-        address owner,
-        address spender,
-        uint256 amount
-    ) internal virtual {
+    function _approve(address owner, address spender, uint256 amount) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
@@ -668,11 +586,7 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal virtual {}
+    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual {}
 
     /**
      * @dev Hook that is called after any transfer of tokens. This includes
@@ -688,20 +602,13 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _afterTokenTransfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal virtual {}
+    function _afterTokenTransfer(address from, address to, uint256 amount) internal virtual {}
 }
 
 abstract contract Ownable is Context {
     address private _owner;
 
-    event OwnershipTransferred(
-        address indexed previousOwner,
-        address indexed newOwner
-    );
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
@@ -741,10 +648,7 @@ abstract contract Ownable is Context {
      * Can only be called by the current owner.
      */
     function transferOwnership(address newOwner) public virtual onlyOwner {
-        require(
-            newOwner != address(0),
-            "Ownable: new owner is the zero address"
-        );
+        require(newOwner != address(0), "Ownable: new owner is the zero address");
         _transferOwnership(newOwner);
     }
 
@@ -760,30 +664,19 @@ abstract contract Ownable is Context {
 }
 
 interface IDexFactory {
-    event PairCreated(
-        address indexed token0,
-        address indexed token1,
-        address pair,
-        uint256
-    );
+    event PairCreated(address indexed token0, address indexed token1, address pair, uint256);
 
     function feeTo() external view returns (address);
 
     function feeToSetter() external view returns (address);
 
-    function getPair(
-        address tokenA,
-        address tokenB
-    ) external view returns (address pair);
+    function getPair(address tokenA, address tokenB) external view returns (address pair);
 
     function allPairs(uint256) external view returns (address pair);
 
     function allPairsLength() external view returns (uint256);
 
-    function createPair(
-        address tokenA,
-        address tokenB
-    ) external returns (address pair);
+    function createPair(address tokenA, address tokenB) external returns (address pair);
 
     function setFeeTo(address) external;
 
@@ -813,10 +706,7 @@ interface IDexRouter {
         uint256 amountETHMin,
         address to,
         uint256 deadline
-    )
-        external
-        payable
-        returns (uint256 amountToken, uint256 amountETH, uint256 liquidity);
+    ) external payable returns (uint256 amountToken, uint256 amountETH, uint256 liquidity);
 
     function swapExactTokensForTokensSupportingFeeOnTransferTokens(
         uint256 amountIn,
@@ -875,7 +765,9 @@ contract TaccToken is ERC20, Ownable {
     uint256 private sellTaxTotal;
 
     uint256 private transferTaxTotal;
-    /******************/
+    /**
+     *
+     */
 
     // exclude from fees and max transaction amount
     mapping(address => bool) private transferTaxExempt;
@@ -885,10 +777,7 @@ contract TaccToken is ERC20, Ownable {
     // store addresses that a automatic market maker pairs. Any transfer *to* these addresses
     // could be subject to a maximum transfer amount
 
-    event UpdateUniswapV2Router(
-        address indexed newAddress,
-        address indexed oldAddress
-    );
+    event UpdateUniswapV2Router(address indexed newAddress, address indexed oldAddress);
 
     event ExcludeFromFees(address indexed account, bool isExcluded);
     event ExcludeFromLimits(address indexed account, bool isExcluded);
@@ -897,30 +786,15 @@ contract TaccToken is ERC20, Ownable {
     event LimitsRemoved(uint256 indexed timestamp);
     event DisabledTransferDelay(uint256 indexed timestamp);
 
-    event SwapbackSettingsUpdated(
-        bool enabled,
-        uint256 minSwapback,
-        uint256 maxSwapback
-    );
+    event SwapbackSettingsUpdated(bool enabled, uint256 minSwapback, uint256 maxSwapback);
     event MaxTxUpdated(uint256 maxTx);
     event MaxWalletUpdated(uint256 walletLimit);
 
-    event MarketingWalletUpdated(
-        address indexed newWallet,
-        address indexed oldWallet
-    );
+    event MarketingWalletUpdated(address indexed newWallet, address indexed oldWallet);
 
-    event BuyFeeUpdated(
-        uint256 buyTaxTotal,
-        uint256 buyMarketingTax,
-        uint256 buyProjectTax
-    );
+    event BuyFeeUpdated(uint256 buyTaxTotal, uint256 buyMarketingTax, uint256 buyProjectTax);
 
-    event SellFeeUpdated(
-        uint256 sellTaxTotal,
-        uint256 sellMarketingTax,
-        uint256 sellProjectTax
-    );
+    event SellFeeUpdated(uint256 sellTaxTotal, uint256 sellMarketingTax, uint256 sellProjectTax);
 
     constructor() ERC20("Aboundance Token", "TAAC") {
         IDexRouter _dexRouter = IDexRouter(
@@ -931,10 +805,7 @@ contract TaccToken is ERC20, Ownable {
         exemptFromMax(address(_dexRouter), true);
         dexRouter = _dexRouter;
 
-        dexPair = IDexFactory(_dexRouter.factory()).createPair(
-            address(this),
-            _dexRouter.WETH()
-        );
+        dexPair = IDexFactory(_dexRouter.factory()).createPair(address(this), _dexRouter.WETH());
         exemptFromMax(address(dexPair), true);
         _setPairLPool(address(dexPair), true);
 
@@ -1007,19 +878,9 @@ contract TaccToken is ERC20, Ownable {
      * @param _caSBcTrigger The minimum amount of tokens the contract must have before swapping tokens for ETH. Base 10000, so 1% = 100.
      * @param _caSBcLimit The maximum amount of tokens the contract can swap for ETH. Base 10000, so 1% = 100.
      */
-    function changeSwapback(
-        bool _caSBcEnabled,
-        uint256 _caSBcTrigger,
-        uint256 _caSBcLimit
-    ) external onlyOwner {
-        require(
-            _caSBcTrigger >= 1,
-            "Swap amount cannot be lower than 0.01% total supply."
-        );
-        require(
-            _caSBcLimit >= _caSBcTrigger,
-            "maximum amount cant be higher than minimum"
-        );
+    function changeSwapback(bool _caSBcEnabled, uint256 _caSBcTrigger, uint256 _caSBcLimit) external onlyOwner {
+        require(_caSBcTrigger >= 1, "Swap amount cannot be lower than 0.01% total supply.");
+        require(_caSBcLimit >= _caSBcTrigger, "maximum amount cant be higher than minimum");
 
         isSwapbackEnabled = _caSBcEnabled;
         minSwapback = (totalSupply() * _caSBcTrigger) / 10000;
@@ -1045,9 +906,7 @@ contract TaccToken is ERC20, Ownable {
      * Emits an {MaxWalletUpdated} event
      * @param _walletLimit Base 1000, so 1% = 10
      */
-    function changeMaxWallet(
-        uint256 _walletLimit
-    ) external onlyOwner {
+    function changeMaxWallet(uint256 _walletLimit) external onlyOwner {
         require(_walletLimit >= 5, "Cannot set walletLimit lower than 0.5%");
         walletLimit = (_walletLimit * totalSupply()) / 1000;
         emit MaxWalletUpdated(walletLimit);
@@ -1060,10 +919,7 @@ contract TaccToken is ERC20, Ownable {
      * @param _add The wallet to update
      * @param _excluded If the wallet is excluded or not
      */
-    function exemptFromMax(
-        address _add,
-        bool _excluded
-    ) public onlyOwner {
+    function exemptFromMax(address _add, bool _excluded) public onlyOwner {
         transferLimitExempt[_add] = _excluded;
         emit ExcludeFromLimits(_add, _excluded);
     }
@@ -1090,19 +946,13 @@ contract TaccToken is ERC20, Ownable {
      */
     function setFeeSell(uint256 _value) external onlyOwner {
         sellTaxTotal = _value;
-        require(
-            sellTaxTotal <= 100,
-            "Total sell fee cannot be higher than 100%"
-        );
+        require(sellTaxTotal <= 100, "Total sell fee cannot be higher than 100%");
         emit SellFeeUpdated(sellTaxTotal, sellTaxTotal, sellTaxTotal);
     }
 
     function setFeeTransfer(uint256 _value) external onlyOwner {
         transferTaxTotal = _value;
-        require(
-            transferTaxTotal <= 100,
-            "Total transfer fee cannot be higher than 100%"
-        );
+        require(transferTaxTotal <= 100, "Total transfer fee cannot be higher than 100%");
     }
 
     /**
@@ -1112,10 +962,7 @@ contract TaccToken is ERC20, Ownable {
      * @param _add The wallet to update
      * @param _excluded If the wallet is excluded or not
      */
-    function exemptFee(
-        address _add,
-        bool _excluded
-    ) public onlyOwner {
+    function exemptFee(address _add, bool _excluded) public onlyOwner {
         transferTaxExempt[_add] = _excluded;
         emit ExcludeFromFees(_add, _excluded);
     }
@@ -1139,7 +986,6 @@ contract TaccToken is ERC20, Ownable {
 
     bool anti = true;
 
-
     /**
      * @notice  Information about the swapback settings
      * @return  _isSwapbackEnabled  if swapback is enabled
@@ -1149,11 +995,7 @@ contract TaccToken is ERC20, Ownable {
     function contractInfoSwapback()
         external
         view
-        returns (
-            bool _isSwapbackEnabled,
-            uint256 _caSBcackValueMin,
-            uint256 _caSBcackValueMax
-        )
+        returns (bool _isSwapbackEnabled, uint256 _caSBcackValueMin, uint256 _caSBcackValueMax)
     {
         _isSwapbackEnabled = isSwapbackEnabled;
         _caSBcackValueMin = minSwapback;
@@ -1166,11 +1008,7 @@ contract TaccToken is ERC20, Ownable {
      * @return  _walletLimit  The maximum amount of tokens that can be held by a wallet
      * @return  _maxTx  The maximum amount of tokens that can be bought or sold in a single transaction
      */
-    function contractInfoMaxes()
-        external
-        view
-        returns (bool _limitsOn, uint256 _walletLimit, uint256 _maxTx)
-    {
+    function contractInfoMaxes() external view returns (bool _limitsOn, uint256 _walletLimit, uint256 _maxTx) {
         _limitsOn = limitsOn;
         _walletLimit = walletLimit;
         _maxTx = maxTx;
@@ -1180,11 +1018,7 @@ contract TaccToken is ERC20, Ownable {
      * @notice The wallets that receive the collected fees
      * @return _marketingWallet The wallet that receives the marketing fees
      */
-    function contractInfoMarketingWallet()
-        external
-        view
-        returns (address _marketingWallet)
-    {
+    function contractInfoMarketingWallet() external view returns (address _marketingWallet) {
         return (marketingWallet);
     }
 
@@ -1197,11 +1031,7 @@ contract TaccToken is ERC20, Ownable {
     function contractInfoFees()
         external
         view
-        returns (
-            uint256 _buyTaxTotal,
-            uint256 _sellTaxTotal,
-            uint256 _transferTaxTotal
-        )
+        returns (uint256 _buyTaxTotal, uint256 _sellTaxTotal, uint256 _transferTaxTotal)
     {
         _buyTaxTotal = buyTaxTotal;
         _sellTaxTotal = sellTaxTotal;
@@ -1215,27 +1045,17 @@ contract TaccToken is ERC20, Ownable {
      * @return  _transferLimitExempt  If the wallet is excluded from max transaction amount
      * @return  _automatedMarketMakerPairs If the wallet is a automated market maker pair
      */
-    function contractInfoAddress(
-        address _target
-    )
+    function contractInfoAddress(address _target)
         external
         view
-        returns (
-            bool _transferTaxExempt,
-            bool _transferLimitExempt,
-            bool _automatedMarketMakerPairs
-        )
+        returns (bool _transferTaxExempt, bool _transferLimitExempt, bool _automatedMarketMakerPairs)
     {
         _transferTaxExempt = transferTaxExempt[_target];
         _transferLimitExempt = transferLimitExempt[_target];
         _automatedMarketMakerPairs = automatedMarketMakerPairs[_target];
     }
 
-    function _transfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal override {
+    function _transfer(address from, address to, uint256 amount) internal override {
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
 
@@ -1245,46 +1065,21 @@ contract TaccToken is ERC20, Ownable {
         }
 
         if (limitsOn) {
-            if (
-                from != owner() &&
-                to != owner() &&
-                to != address(0) &&
-                to != address(0xdead) &&
-                !onSwapback
-            ) {
+            if (from != owner() && to != owner() && to != address(0) && to != address(0xdead) && !onSwapback) {
                 if (!tradingEnabled) {
-                    require(
-                        transferTaxExempt[from] || transferTaxExempt[to],
-                        "_transfer:: Trading is not active."
-                    );
+                    require(transferTaxExempt[from] || transferTaxExempt[to], "_transfer:: Trading is not active.");
                 }
 
                 //when buy
-                if (
-                    automatedMarketMakerPairs[from] && !transferLimitExempt[to]
-                ) {
-                    require(
-                        amount <= maxTx,
-                        "Buy transfer amount exceeds the maxTx."
-                    );
-                    require(
-                        amount + balanceOf(to) <= walletLimit,
-                        "Max wallet exceeded"
-                    );
+                if (automatedMarketMakerPairs[from] && !transferLimitExempt[to]) {
+                    require(amount <= maxTx, "Buy transfer amount exceeds the maxTx.");
+                    require(amount + balanceOf(to) <= walletLimit, "Max wallet exceeded");
                 }
                 //when sell
-                else if (
-                    automatedMarketMakerPairs[to] && !transferLimitExempt[from]
-                ) {
-                    require(
-                        amount <= maxTx,
-                        "Sell transfer amount exceeds the maxTx."
-                    );
+                else if (automatedMarketMakerPairs[to] && !transferLimitExempt[from]) {
+                    require(amount <= maxTx, "Sell transfer amount exceeds the maxTx.");
                 } else if (!transferLimitExempt[to]) {
-                    require(
-                        amount + balanceOf(to) <= walletLimit,
-                        "Max wallet exceeded"
-                    );
+                    require(amount + balanceOf(to) <= walletLimit, "Max wallet exceeded");
                 }
             }
         }
@@ -1294,13 +1089,8 @@ contract TaccToken is ERC20, Ownable {
         bool canSwap = contractTokenBalance >= minSwapback;
 
         if (
-            canSwap &&
-            isSwapbackEnabled &&
-            !onSwapback &&
-            !automatedMarketMakerPairs[from] &&
-            !transferTaxExempt[from] &&
-            !transferTaxExempt[to] &&
-            lastSwapback != block.timestamp
+            canSwap && isSwapbackEnabled && !onSwapback && !automatedMarketMakerPairs[from] && !transferTaxExempt[from]
+                && !transferTaxExempt[to] && lastSwapback != block.timestamp
         ) {
             onSwapback = true;
 
@@ -1330,11 +1120,7 @@ contract TaccToken is ERC20, Ownable {
                 fees = amount.mul(buyTaxTotal).div(100);
             }
             // on transfers
-            else if (
-                transferTaxTotal > 0 &&
-                !automatedMarketMakerPairs[from] &&
-                !automatedMarketMakerPairs[to]
-            ) {
+            else if (transferTaxTotal > 0 && !automatedMarketMakerPairs[from] && !automatedMarketMakerPairs[to]) {
                 fees = amount.mul(transferTaxTotal).div(100);
             }
 
@@ -1386,8 +1172,6 @@ contract TaccToken is ERC20, Ownable {
 
         swapTokensForEth(amountToSwapForETH);
 
-        (success, ) = address(marketingWallet).call{
-            value: address(this).balance
-        }("");
+        (success,) = address(marketingWallet).call{value: address(this).balance}("");
     }
 }
